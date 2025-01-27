@@ -1,0 +1,22 @@
+
+{
+        "[c]": {
+            "editor.defaultFormatter": "keyhr.42-c-format"
+        },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.renderWhitespace": "all",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.autoSave": "afterDelay",
+    "[cpp]": {
+    },
+    "window.autoDetectColorScheme": true,
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "editor.fontFamily": "FiraCode Nerd Font",
+    "editor.fontLigatures": true,
+    "explorer.confirmDelete": false,
+    "editor.fontVariations": false,
+    "editor.fontWeight": "normal"
+}
