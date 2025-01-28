@@ -1,0 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/28 11:14:52 by anastruc          #+#    #+#             */
+/*   Updated: 2025/01/28 12:14:30 by anastruc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef COLORS_H
+# define COLORS_H
+
+# define RESET "\033[0m"    // Reset color
+# define RED "\033[31m"     // Red
+# define GREEN "\033[32m"   // Green
+# define YELLOW "\033[33m"  // Yellow
+# define BLUE "\033[34m"    // Blue
+# define MAGENTA "\033[35m" // Magenta
+
+#endif /* FUNCTIONS_H */
