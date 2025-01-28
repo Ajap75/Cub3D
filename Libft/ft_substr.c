@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 12:05:58 by anastruc          #+#    #+#             */
-/*   Updated: 2024/04/26 17:44:31 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:45:35 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	else
 	{
-		substr = (char *)malloc(sizeof(char) * (ft_substrlen(s, start, len))
-				+ 1);
+		substr = (char *)malloc(sizeof(char) * ((ft_substrlen(s, start, len)
+						+ 1)));
 		if (!substr)
 			return (NULL);
 		i = 0;

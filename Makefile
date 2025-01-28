@@ -6,7 +6,7 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 12:53:29 by anastruc          #+#    #+#              #
-#    Updated: 2025/01/28 12:16:44 by anastruc         ###   ########.fr        #
+#    Updated: 2025/01/28 15:30:26 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = cub3D_parse
 
 # Compiler and flags
 COMPIL = gcc                           # Compiler to use (GCC)
-FLAGS = -Wall -Werror -Wextra          # Flags for strict compilation
+FLAGS = -Wall -Werror -Wextra -g3         # Flags for strict compilation
 
 # Colors for terminal output (used in echo statements)
 PINK = \033[1;35m
