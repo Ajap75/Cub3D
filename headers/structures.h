@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:42:38 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/28 12:32:17 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:39:50 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 # include <../Libft/libft.h>
 typedef struct s_config
 {
+	char *map_filename;
 	char *textures[4]; /* NO, SO, WE, EA*/
-
+	int	textures_files_fd[4]; /* NO, SO, WE, EA*/
+	int	map_file_fd;
 	int floor_color[3];   /* RGB */
 	int ceiling_color[3]; /* RGB */
 }				t_config;

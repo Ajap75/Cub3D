@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/28 17:48:17 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:50:49 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,62 +24,96 @@ int	parse_metadata(t_data *data, int fd)
 		if (line == NULL)
 			return (1);
 		else if (ft_strncmp("NO ", line, 3) == 0)
-		{
-			data->config.textures[0] = ft_substr(line, 3, ((int)ft_strlen(line)));
-			printf("Path = |%s|\n", data->config.textures[0]);
-			for (int i = 0; line[i] != '\0'; i++) {
-    		printf("Char: '%c', Hex: 0x%x, Index: %d\n", line[i], line[i], i);
-}
-		}
+			ft_set_north_texture(line, data);
 		else if (ft_strncmp("SO ", line, 3) == 0)
-			data->config.textures[1] = ft_substr(line, 3, ft_strlen(line));
+			ft_set_south_texture(line, data);
 		else if (ft_strncmp("WE ", line, 3) == 0)
-			data->config.textures[2] = ft_substr(line, 3, ft_strlen(line));
+			ft_set_west_texture(line, data);
 		else if (ft_strncmp("EA ", line, 3) == 0)
-			data->config.textures[3] = ft_substr(line, 3, ft_strlen(line));
+			ft_set_east_texture(line, data);
 		else if (ft_strncmp("F ", line, 2) == 0)
-			format_color(line, data);
+			format_floor_color(line, data);
 		else if (ft_strncmp("C ", line, 2) == 0)
-			format_color(line, data);
+			format_ceilling_color(line, data);
 		else
+		{
+			free(line);
 			continue ;
-		free(line);
+		}
 	}
 }
 
-int	format_color(char *line, t_data *data)
+
+int	format_ceilling_color(char *line, t_data *data)
 {
 	int		i;
 	char	**rgb_tab;
+	char	*tmp;
 
+	tmp = ft_strdup(line + 2);
+	free(line);
+	line = tmp;
 	i = 0;
 	rgb_tab = ft_split(line, 44);
-	if (ft_strncmp(line, "F ", 2) == 0)
+	while (rgb_tab[i])
+		i++;
+	if (i != 3)
 	{
-		rgb_tab[i] = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
-		while (i < 3)
-		{
-			printf("rgb_tab[i] = %s\n", rgb_tab[i]);
-			printf("data->config.floor_color[i] = %d\n", ft_atoi(rgb_tab[i]));
-			fflush(0);
-			data->config.floor_color[i] = ft_atoi(rgb_tab[i]);
-			i++;
-		}
+		free(line);
+		free_char_tab(rgb_tab);
+		ft_clean(data);
 	}
-	else if (ft_strncmp(line, "C ", 2) == 0)
+	i = 0;
+	while (i < 3)
 	{
-		rgb_tab[i] = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
-		while (i < 3)
-		{
-			printf("rgb_tab[i] = %s\n", rgb_tab[i]);
-			printf("data->config.ceiling_color[i] = %d\n", ft_atoi(rgb_tab[i]));
-			fflush(0);
-			data->config.ceiling_color[i] = ft_atoi(rgb_tab[i]);
-			i++;
-		}
+		// printf("\033[31mprout\n i = %d", i);
+		// tmp = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
+		// free(rgb_tab[i]);
+		// printf("rgb_ceiling_tab[%d] = %s\n", i, line);
+		// printf("data->config.ceiling_color[%d] = %d\n", i, ft_atoi(rgb_tab[i]));
+		data->config.ceiling_color[i] = ft_atoi(rgb_tab[i]);
+		i++;
 	}
+	free(line);
+	free_char_tab(rgb_tab);
 	return (0);
 }
+
+int	format_floor_color(char *line, t_data *data)
+{
+	int		i;
+	char	**rgb_tab;
+	char	*tmp;
+
+	tmp = ft_strdup(line + 2);
+	free(line);
+	line = tmp;
+	i = 0;
+	rgb_tab = ft_split(line, 44);
+	while (rgb_tab[i])
+		i++;
+	if (i != 3)
+	{
+		free(line);
+		free_char_tab(rgb_tab);
+		ft_clean(data);
+	}
+	i = 0;
+	while (i < 3)
+	{
+		// tmp = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
+		// free(rgb_tab[i]);
+		// printf("rgb_floor_tab[%d] = %s\n", i, line);
+		// printf("data->config.floor_color[%d] = %d\n", i, ft_atoi(rgb_tab[i]));
+		data->config.floor_color[i] = ft_atoi(rgb_tab[i]);
+		i++;
+	}
+	free(line);
+	free_char_tab(rgb_tab);
+	return (0);
+}
+
+
 
 int	check_config_data(t_data *data)
 {
@@ -96,21 +130,16 @@ int	check_texture(t_data *data)
 	i = 0;
 	while (i < 4)
 	{
-		printf("|%s|\n", data->config.textures[i]);
 		fd = open(data->config.textures[i], O_RDONLY);
-		printf("./Textures/Bricks/BIGBRICKS.png\n");
-		printf("Open = %d\n", fd);
-		fd = open("./Textures/Bricks/BIGBRICKS.png", O_RDONLY);
-		printf("Open = %d\n", fd);
-		if (fd != -1)
-			printf("OKOKOKOK\n");
+		data->config.textures_files_fd[i] = fd;
 		if (fd == -1)
 		{
-			printf("\033[31mError\n:Issue with one of the texture.\n%s\033[0m\n",
-				strerror(errno));
+			printf("\033[31mError\n:Issue with one of the texture.\nTexture File name : |%s|\n%s\033[0m\n",
+				data->config.textures[i], strerror(errno));
 			exit(1);
 		}
-		printf("\033[32m Texture file OK\033[0m\n");
+		printf("\033[32m Texture file OK \n|%s|\n\033[0m\n",
+			data->config.textures[i]);
 		i++;
 	}
 	return (0);
@@ -130,6 +159,8 @@ int	check_colors(t_data *data)
 				strerror(errno));
 			exit(1);
 		}
+		printf("\033[32mRGB ceiling color OK \n%d\n\033[0m\n",
+			data->config.ceiling_color[i]);
 		i++;
 	}
 	i = 0;
@@ -138,9 +169,13 @@ int	check_colors(t_data *data)
 		if (data->config.floor_color[i] < 0
 			|| data->config.floor_color[i] > 255)
 		{
-			exit(printf("\033[31mError\n:Issue with the RGB floo color.\n%s\033[0m\n",
-					strerror(errno)));
+			exit(printf("\033[31mError\n:Issue with the RGB floor color : %d\
+			.\n%s\033[0m\n",
+						data->config.floor_color[i],
+						strerror(errno)));
 		}
+		printf("\033[32mRGB floor color OK \n%d\n\033[0m\n",
+			data->config.floor_color[i]);
 		i++;
 	}
 	return (0);
@@ -166,3 +201,19 @@ int	check_colors(t_data *data)
 // 	i = 0;
 
 // }
+
+int	free_char_tab(char **texture_file)
+{
+	int	i;
+
+	i = 0;
+	if (!texture_file)
+		return (0);
+	while (texture_file[i])
+	{
+		free(texture_file[i]);
+		i++;
+	}
+	free(texture_file);
+	return (1);
+}

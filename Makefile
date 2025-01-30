@@ -6,7 +6,7 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 12:53:29 by anastruc          #+#    #+#              #
-#    Updated: 2025/01/28 15:30:26 by anastruc         ###   ########.fr        #
+#    Updated: 2025/01/30 15:03:00 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJS_DIR = objs# Directory where object files will be generated
 HEADERS_DIR = headers# Directory containing header files
 
 # List of source files for parsing
-SRCS = main.c parsing_metadata.c
+SRCS = main.c parsing_metadata.c set_texture.c
 
 # List of header files
 HEADERS =  structures.h colors.h functions.h
