@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/30 17:50:49 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:36:32 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,35 +42,66 @@ int	parse_metadata(t_data *data, int fd)
 		}
 	}
 }
+int	ft_trim_tab(char **rgb_tab)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	if (rgb_tab)
+	{
+		while (rgb_tab[i])
+		{
+			tmp = rgb_tab[i];
+			rgb_tab[i] = ft_strtrim(rgb_tab[i], " C F \t\n");
+			free(tmp);
+			i++;
+		}
+	}
+	return (0);
+}
+
+void	ft_print_tab(char **rgb_tab)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (rgb_tab[i])
+	{
+		j = 0;
+		while (rgb_tab[i][j])
+		{
+			printf("rgb[%d][%d] = %d\n", i, j, rgb_tab[i][j]);
+			j++;
+		}
+		i++;
+	}
+}
 
 
 int	format_ceilling_color(char *line, t_data *data)
 {
 	int		i;
 	char	**rgb_tab;
-	char	*tmp;
 
-	tmp = ft_strdup(line + 2);
-	free(line);
-	line = tmp;
+	// tmp = ft_strdup(line + 2);
+	// free(line);
+	// line = tmp;
 	i = 0;
 	rgb_tab = ft_split(line, 44);
+	ft_print_tab(rgb_tab);
+	ft_trim_tab(rgb_tab);
+	ft_print_tab(rgb_tab);
 	while (rgb_tab[i])
 		i++;
 	if (i != 3)
-	{
-		free(line);
-		free_char_tab(rgb_tab);
-		ft_clean(data);
-	}
+		ft_free_exit(line, rgb_tab, data, 1);
 	i = 0;
 	while (i < 3)
 	{
-		// printf("\033[31mprout\n i = %d", i);
-		// tmp = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
-		// free(rgb_tab[i]);
-		// printf("rgb_ceiling_tab[%d] = %s\n", i, line);
-		// printf("data->config.ceiling_color[%d] = %d\n", i, ft_atoi(rgb_tab[i]));
+		if (!ft_is_number(rgb_tab[i]))
+			ft_free_exit(line, rgb_tab, data, 2);
 		data->config.ceiling_color[i] = ft_atoi(rgb_tab[i]);
 		i++;
 	}
@@ -79,32 +110,68 @@ int	format_ceilling_color(char *line, t_data *data)
 	return (0);
 }
 
+int	ft_free_exit(char *line, char	**rgb_tab, t_data *data, int i)
+{
+	free(line);
+	free_char_tab(rgb_tab);
+	if (i == 1)
+		printf("\033[31mError\n!RGB! Each color must be made of of exactly 3 \
+numbers serpareted by a coma\n\033[0m");
+	else
+		printf("\033[31mError\nDIGIT ONLY : Each color must be made of exactly 3 \
+numbers serpareted by a coma\n\033[0m");
+	return(ft_clean_data_and_exit(data));
+}
+
+int	ft_is_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	// if (str == NULL)
+	// 	return
+	while (str[i])
+	{
+	printf("str[%d] = %c\n", i, str[i]);
+		if (ft_isdigit(str[i]))
+			i++;
+		else
+		{
+			return (0);
+			printf("-----------\n");
+
+		}
+	}
+	printf("-----------\n");
+	return (1);
+}
+
 int	format_floor_color(char *line, t_data *data)
 {
 	int		i;
 	char	**rgb_tab;
-	char	*tmp;
+	// char	*tmp;
 
-	tmp = ft_strdup(line + 2);
-	free(line);
-	line = tmp;
+	// tmp = ft_strdup(line + 2);
+	// free(line);
+	// line = tmp;
 	i = 0;
 	rgb_tab = ft_split(line, 44);
+	ft_print_tab(rgb_tab);
+	ft_trim_tab(rgb_tab);
+	ft_print_tab(rgb_tab);
 	while (rgb_tab[i])
 		i++;
 	if (i != 3)
 	{
-		free(line);
-		free_char_tab(rgb_tab);
-		ft_clean(data);
+		ft_free_exit(line, rgb_tab, data, 1);
 	}
 	i = 0;
 	while (i < 3)
 	{
-		// tmp = ft_substr(rgb_tab[i], 2, ft_strlen(rgb_tab[i]));
-		// free(rgb_tab[i]);
-		// printf("rgb_floor_tab[%d] = %s\n", i, line);
-		// printf("data->config.floor_color[%d] = %d\n", i, ft_atoi(rgb_tab[i]));
+		// rgb_tab[i] = ft_strtrim(rgb_tab[i], " C\t\n");
+		if (!ft_is_number(rgb_tab[i]))
+			ft_free_exit(line, rgb_tab, data, 2);
 		data->config.floor_color[i] = ft_atoi(rgb_tab[i]);
 		i++;
 	}
@@ -136,7 +203,7 @@ int	check_texture(t_data *data)
 		{
 			printf("\033[31mError\n:Issue with one of the texture.\nTexture File name : |%s|\n%s\033[0m\n",
 				data->config.textures[i], strerror(errno));
-			exit(1);
+			ft_clean_data_and_exit(data);
 		}
 		printf("\033[32m Texture file OK \n|%s|\n\033[0m\n",
 			data->config.textures[i]);
@@ -157,7 +224,7 @@ int	check_colors(t_data *data)
 		{
 			printf("\033[31mError\n:Issue with the RGB ceiling color.\n%s\033[0m\n",
 				strerror(errno));
-			exit(1);
+		ft_clean_data_and_exit(data);
 		}
 		printf("\033[32mRGB ceiling color OK \n%d\n\033[0m\n",
 			data->config.ceiling_color[i]);
@@ -169,10 +236,9 @@ int	check_colors(t_data *data)
 		if (data->config.floor_color[i] < 0
 			|| data->config.floor_color[i] > 255)
 		{
-			exit(printf("\033[31mError\n:Issue with the RGB floor color : %d\
-			.\n%s\033[0m\n",
-						data->config.floor_color[i],
-						strerror(errno)));
+			printf("\033[31mError\n:Issue with the RGB floor color : %d\
+\033[0m\n", data->config.floor_color[i]);
+		ft_clean_data_and_exit(data);
 		}
 		printf("\033[32mRGB floor color OK \n%d\n\033[0m\n",
 			data->config.floor_color[i]);

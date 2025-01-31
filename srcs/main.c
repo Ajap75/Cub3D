@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/30 17:46:11 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/31 11:40:12 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv)
 	ft_initialize(&data);
 	parse_metadata(&data, data.config.map_file_fd);
 	check_config_data(&data);
-	ft_clean(&data);
+	ft_clean_data_and_exit(&data);
 	// test_parsing_metadata(&data);
 	// parse_map(&data, fd);
 }
@@ -63,7 +63,7 @@ int	ft_open_file(char *file_name)
 		return (fd);
 }
 
-int	ft_clean(t_data *data)
+int	ft_clean_data_and_exit(t_data *data)
 {
 	int		i;
 	char	*line;
@@ -82,10 +82,11 @@ int	ft_clean(t_data *data)
 	{
 		if (data->config.textures_files_fd[i] != -1)
 			close(data->config.textures_files_fd[i]);
-		free(data->config.textures[i]);
+		if (data->config.textures[i])
+			free(data->config.textures[i]);
 		i++;
 	}
-	return (1);
+	exit(1);
 }
 
 int	ft_initialize(t_data *data)
