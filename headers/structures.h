@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:42:38 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/30 17:39:50 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:26:23 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_config
 	int	map_file_fd;
 	int floor_color[3];   /* RGB */
 	int ceiling_color[3]; /* RGB */
+	int	metadata_number;
+	int	flags[6];
 }				t_config;
 
 typedef struct s_map

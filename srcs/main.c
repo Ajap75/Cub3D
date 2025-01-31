@@ -6,10 +6,15 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 11:40:12 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:47:16 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+/* TODO :
+
+- CHECKER LES OVERFLOW AVEC LES COULEURS
+PARSE LES EXTENSION DE FICHIER .CUB*/
 #include "../headers/functions.h"
 #include "../headers/structures.h"
 #include <fcntl.h>
@@ -30,8 +35,7 @@ int	main(int argc, char **argv)
 	if (data.config.map_file_fd == -1)
 		exit(1);
 	ft_initialize(&data);
-	parse_metadata(&data, data.config.map_file_fd);
-	check_config_data(&data);
+	parse_metadata(&data);
 	ft_clean_data_and_exit(&data);
 	// test_parsing_metadata(&data);
 	// parse_map(&data, fd);
@@ -54,7 +58,8 @@ int	ft_open_file(char *file_name)
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("\033[31mError :%s\n The file doesn't exist or can not be open\033[0m\n",
+		printf("\033[31mError :%s\n The file doesn't exist or\
+can not be open\033[0m\n",
 			strerror(errno));
 		close(fd);
 		return (-1);
@@ -97,11 +102,6 @@ int	ft_initialize(t_data *data)
 	while (i < 4)
 	{
 		data->config.textures[i] = NULL;
-		i++;
-	}
-	i = 0;
-	while (i < 4)
-	{
 		data->config.textures_files_fd[i] = -1;
 		i++;
 	}
@@ -109,12 +109,14 @@ int	ft_initialize(t_data *data)
 	while (i < 3)
 	{
 		data->config.ceiling_color[i] = 0;
+		data->config.floor_color[i] = 0;
 		i++;
 	}
+	data->config.metadata_number = 0;
 	i = 0;
-	while (i < 3)
+	while (i < 6)
 	{
-		data->config.floor_color[i] = 0;
+		data->config.flags[i] = 0;
 		i++;
 	}
 	return (1);
