@@ -6,10 +6,9 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 12:54:01 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:17:40 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /* TODO :
 
@@ -60,21 +59,35 @@ int	ft_open_file(char *file_name)
 	{
 		printf("\033[31mError :%s\n The file doesn't exist or\
 can not be open\033[0m\n",
-			strerror(errno));
-		close(fd);
+				strerror(errno));
 		return (-1);
 	}
 	else
 		return (fd);
 }
 
+int	ft_clean_layout(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->map.layout == NULL)
+		return (1);
+	while (data->map.layout[i])
+	{
+		if (data->map.layout[i] != NULL)
+			free(data->map.layout[i]);
+		i++;
+	}
+	free(data->map.layout);
+	return (0);
+}
 int	ft_clean_data_and_exit(t_data *data)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-
 	while (1)
 	{
 		line = get_next_line(data->config.map_file_fd);
@@ -82,7 +95,6 @@ int	ft_clean_data_and_exit(t_data *data)
 			break ;
 		free(line);
 	}
-
 	while (i < 4)
 	{
 		if (data->config.textures_files_fd[i] != -1)
@@ -91,6 +103,7 @@ int	ft_clean_data_and_exit(t_data *data)
 			free(data->config.textures[i]);
 		i++;
 	}
+	ft_clean_layout(data);
 	exit(1);
 }
 
@@ -99,7 +112,8 @@ int	ft_initialize(t_data *data)
 	int	i;
 
 	i = 0;
-	data->map.map_index = -1;
+	data->map.layout = NULL;
+	data->map.begin_map_index = -1;
 	data->config.metadata_count = 0;
 	data->map.height = 0;
 	data->map.width = 0;
@@ -123,4 +137,18 @@ int	ft_initialize(t_data *data)
 		i++;
 	}
 	return (1);
+}
+
+int	ft_end_file(t_data *data)
+{
+	char	*line;
+	while (1)
+	{
+		line = get_next_line(data->config.map_file_fd);
+		if (line == NULL)
+			break ;
+		free(line);
+	}
+	close(data->config.map_file_fd);
+	return (0);
 }

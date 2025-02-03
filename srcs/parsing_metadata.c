@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 12:40:25 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:47:20 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	ft_store_metadata(t_data *data)
 	{
 
 		line = get_next_line(data->config.map_file_fd);
-		data->map.map_index++;
+		data->map.begin_map_index++;
 
-		printf("Line[%d] = |%s|\n", data->map.map_index, line);
+		printf("Line[%d] = |%s|\n", data->map.begin_map_index, line);
 		if (line == NULL || data->config.metadata_count == 6)
 		{
 			if (line != NULL)

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:07:03 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 17:04:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:31:14 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 void	test_parsing_metadata(t_data *data);
 int		ft_trim_tab(char **rgb_tab);
+int		ft_end_file(t_data *data);
 
 /*PARSING METADATA*/
 int		ft_initialize(t_data *data);

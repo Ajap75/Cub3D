@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:42:38 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 12:20:34 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:43:51 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef struct s_config
 typedef struct s_map
 {
 	char **layout;   // 2D array for the map
-	int	map_index; // Index of the beginning of the map;
+	int	begin_map_index; // Index of the beginning of the map;
+	int	end_map_index; // Index of the end of the map;
 	int width;       // Map width
 	int height;      // MAp height
 	int player_x;    // player coordinate
