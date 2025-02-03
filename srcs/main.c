@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 17:47:16 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:54:01 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	main(int argc, char **argv)
 		exit(1);
 	ft_initialize(&data);
 	parse_metadata(&data);
+	// parse_map(&data, fd);
 	ft_clean_data_and_exit(&data);
 	// test_parsing_metadata(&data);
-	// parse_map(&data, fd);
 }
 
 void	test_parsing_metadata(t_data *data)
@@ -99,6 +99,10 @@ int	ft_initialize(t_data *data)
 	int	i;
 
 	i = 0;
+	data->map.map_index = -1;
+	data->config.metadata_count = 0;
+	data->map.height = 0;
+	data->map.width = 0;
 	while (i < 4)
 	{
 		data->config.textures[i] = NULL;
@@ -112,7 +116,6 @@ int	ft_initialize(t_data *data)
 		data->config.floor_color[i] = 0;
 		i++;
 	}
-	data->config.metadata_number = 0;
 	i = 0;
 	while (i < 6)
 	{

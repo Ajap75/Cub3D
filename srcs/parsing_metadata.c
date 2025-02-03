@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 17:30:11 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:40:25 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parse_metadata(t_data *data)
 	ft_check_for_doublon(data);
 	ft_store_metadata(data);
 	check_config_data(data);
-	// parse_map(data);
+	parse_map(data);
 	return (0);
 }
 
@@ -31,9 +31,15 @@ int	ft_store_metadata(t_data *data)
 	{
 
 		line = get_next_line(data->config.map_file_fd);
-		printf("line = |%s|\n", line);
-		if (line == NULL)
+		data->map.map_index++;
+
+		printf("Line[%d] = |%s|\n", data->map.map_index, line);
+		if (line == NULL || data->config.metadata_count == 6)
+		{
+			if (line != NULL)
+				return (free(line), 1);
 			return (1);
+		}
 		else if (ft_strncmp("NO ", line, 3) == 0)
 			ft_set_north_texture(line, data);
 		else if (ft_strncmp("SO ", line, 3) == 0)
@@ -99,9 +105,9 @@ int	format_ceilling_color(char *line, t_data *data)
 		if (!ft_is_number(rgb_tab[i]))
 			ft_free_exit(line, rgb_tab, data, 2);
 		data->config.ceiling_color[i] = ft_atoi(rgb_tab[i]);
-		data->config.metadata_number++;
 		i++;
 	}
+	data->config.metadata_count++;
 	free(line);
 	free_char_tab(rgb_tab);
 	return (0);
@@ -127,9 +133,9 @@ int	format_floor_color(char *line, t_data *data)
 		if (!ft_is_number(rgb_tab[i]))
 			ft_free_exit(line, rgb_tab, data, 2);
 		data->config.floor_color[i] = ft_atoi(rgb_tab[i]);
-		data->config.metadata_number++;
 		i++;
 	}
+	data->config.metadata_count++;
 	free(line);
 	free_char_tab(rgb_tab);
 	return (0);

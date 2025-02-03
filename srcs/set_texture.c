@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:02:12 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 17:17:59 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:24:27 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,33 @@
 
 int	ft_set_north_texture(char *line, t_data *data)
 {
-	if (data->config.textures[0])
-	{
-		free(line);
-		printf("\033[31mError:\nMultiple NORTH texture\n\033[0m");
-		ft_clean_data_and_exit(data);
-	}
+	data->config.metadata_count++;
 	data->config.textures[0] = ft_strtrim(line, " NO\t\n");
-	data->config.metadata_number++;
 	free(line);
 	return (0);
 }
 
 int	ft_set_south_texture(char *line, t_data *data)
 {
-	if (data->config.textures[1])
-	{
-		free(line);
-		printf("\033[31Error:\nMultiple SOUTH texture\n\033[0m");
-		ft_clean_data_and_exit(data);
-	}
+	data->config.metadata_count++;
 	data->config.textures[1] = ft_strtrim(line, " SO\t\n");
-	data->config.metadata_number++;
 	free(line);
 	return (0);
 }
 
 int	ft_set_west_texture(char *line, t_data *data)
 {
-	if (data->config.textures[2])
-	{
-		free(line);
-		printf("\033[31Error:\nMultiple WEST texture\n\033[0m");
-		ft_clean_data_and_exit(data);
-	}
+
+	data->config.metadata_count++;
 	data->config.textures[2] = ft_strtrim(line, " \tWE\n");
-	data->config.metadata_number++;
 	free(line);
 	return (0);
 }
 
 int	ft_set_east_texture(char *line, t_data *data)
 {
-	if (data->config.textures[3])
-	{
-		free(line);
-		printf("\033[31Error:\nMultiple EAST texture\n\033[0m");
-		ft_clean_data_and_exit(data);
-	}
+	data->config.metadata_count++;
 	data->config.textures[3] = ft_strtrim(line, " \tEA\n");
-	data->config.metadata_number++;
 	free(line);
 	return (0);
 }

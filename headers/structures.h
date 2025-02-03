@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:42:38 by anastruc          #+#    #+#             */
-/*   Updated: 2025/01/31 16:26:23 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:20:34 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ typedef struct s_config
 	int	map_file_fd;
 	int floor_color[3];   /* RGB */
 	int ceiling_color[3]; /* RGB */
-	int	metadata_number;
+	int	metadata_count;
 	int	flags[6];
 }				t_config;
 
 typedef struct s_map
 {
 	char **layout;   // 2D array for the map
+	int	map_index; // Index of the beginning of the map;
 	int width;       // Map width
 	int height;      // MAp height
 	int player_x;    // player coordinate
