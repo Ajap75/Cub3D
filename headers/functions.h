@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:07:03 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 11:53:30 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:45:19 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int		format_floor_color(char *line, t_data *data);
 
 /*PARSING MAP*/
 
-int		parse_metadata(t_data *data);
+int		parse(t_data *data);
 
 /*PARSING UTILS*/
 
+int	ft_set_texture(t_data *data, char *line);
 void	ft_print_tab(char **rgb_tab);
-int		parse_metadata(t_data *data);
 int		parse_map(t_data *data);
 int		ft_store_metadata(t_data *data);
 int		ft_set_north_texture(char *line, t_data *data);

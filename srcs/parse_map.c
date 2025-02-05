@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:30:16 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 15:15:16 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:32:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,6 +272,34 @@ int	replace_spaces(t_data *data)
 	return (0);
 }
 
+int	ft_check_flag(int flag, t_data *data)
+{
+	if (flag == 0)
+	{
+		printf("\033[31mError\nMissing player's position\n\033[0m");
+		return(ft_clean_data_and_exit(data));
+	}
+	else if (flag > 1)
+	{
+		printf("\033[31mError\nToo many player's positions. Extra at[%d][%d] Extra = %d\n\033[0m", data->map.player_i, data->map.player_j, flag - 1);
+		return(ft_clean_data_and_exit(data));
+	}
+	else
+		return (0);
+}
+int	set_player_position(int i, int j, t_data *data)
+{
+	if (data->map.layout[i][j] == 'N' || data->map.layout[i][j] == 'S'
+		|| data->map.layout[i][j] == 'W' || data->map.layout[i][j] == 'E')
+	{
+		data->map.player_i = i;
+		data->map.player_j = j;
+		data->map.player_dir = data->map.layout[i][j];
+		return (1);
+	}
+	else
+		return (0);
+}
 int	check_player(t_data *data)
 {
 	int	i;
@@ -285,19 +313,14 @@ int	check_player(t_data *data)
 	{
 		while (j < (int)ft_strlen(data->map.layout[i]))
 		{
-			if (data->map.layout[i][j] == 'N' || data->map.layout[i][j] == 'S'
-				|| data->map.layout[i][j] == 'W'
-				|| data->map.layout[i][j] == 'E')
+			if (set_player_position(i, j, data))
 				flag++;
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	if (flag == 0)
-		printf("\033[31mError\nMissing player's position\n\033[0m");
-	else if (flag > 1)
-		printf("\033[31mError\nTo many player's position\n\033[0m");
+	ft_check_flag(flag, data);
 	return (0);
 }
 
@@ -320,7 +343,8 @@ int	check_allowed_character(t_data *data)
 				j++;
 			else
 			{
-				printf("\033[31mError\nCharacter : |%c| Unauthorized\nAuthorized characters are : '1' '0' 'N' 'S' 'E' 'W'\n\033[0m", data->map.layout[i][j]);
+				printf("\033[31mError\nCharacter : |%c| Pos[%d][%d]Unauthorized\nAuthorized characters are : '1' '0' 'N' 'S' 'E' 'W'\n\033[0m",
+					data->map.layout[i][j], i, j);
 				ft_clean_data_and_exit(data);
 			}
 		}
@@ -330,19 +354,92 @@ int	check_allowed_character(t_data *data)
 	return (0);
 }
 
+int	floodfill_algo(t_data *data, int i, int j)
+{
+	data->map.layout[i][j] = 'P';
+	if (i - 1 >= 0)
+	{
+		if (data->map.layout[i - 1][j] == '0')
+			floodfill_algo(data, i - 1, j);
+	}
+	if (i + 1 <= data->map.height - 1)
+	{
+		if (data->map.layout[i + 1][j] == '0')
+			floodfill_algo(data, i + 1, j);
+	}
+	if (j - 1 >= 0)
+	{
+		if (data->map.layout[i][j - 1] == '0')
+			floodfill_algo(data, i, j - 1);
+	}
+	if (j + 1 >= 0)
+	{
+		if (data->map.layout[i][j + 1] == '0')
+			floodfill_algo(data, i, j + 1);
+	}
+	return(0);
+}
+int	check_algo_floodfill(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < data->map.height)
+	{
+		while (j < (int)ft_strlen(data->map.layout[i]))
+		{
+			if (data->map.layout[i][j] == '1' || data->map.layout[i][j] == 'P')
+				j++;
+			else
+			{
+				printf("\033[31mError\nPosition [%d][%d] is unreachable by the player\n\033[0m", i, j);
+				ft_clean_data_and_exit(data);
+			}
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
+}
+int	restore_map(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < data->map.height)
+	{
+		while (j < (int)ft_strlen(data->map.layout[i]))
+		{
+			if (data->map.layout[i][j] == 'P')
+				data->map.layout[i][j] = '0';
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	data->map.layout[data->map.player_i][data->map.player_j] = data->map.player_dir;
+	return (0);
+}
 int	parse_map(t_data *data)
 {
 	get_map_index(data);
 	ft_end_file(data);
 	data->config.map_file_fd = ft_open_file(data->config.map_filename);
-	// printf("FD = %d\n", data->config.map_file_fd);
 	ft_go_to_map(data);
 	ft_store_map(data);
-	print_map(data);
 	replace_spaces(data);
-	check_player(data);
+	print_map(data);
 	check_allowed_character(data);
+	check_player(data);
 	print_map(data);
 	check_boundaries(data);
+	floodfill_algo(data, data->map.player_i, data->map.player_j);
+	print_map(data);
+	check_algo_floodfill(data);
+	restore_map(data);
 	return (0);
 }

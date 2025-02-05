@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 11:54:38 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 17:31:51 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ int	main(int argc, char **argv)
 	if (data.config.map_file_fd == -1)
 		exit(1);
 	ft_initialize(&data);
-	parse_metadata(&data);
-	// parse_map(&data, fd);
+	parse(&data);
 	ft_clean_data_and_exit(&data);
-	// test_parsing_metadata(&data);
 }
 
 void	test_parsing_metadata(t_data *data)

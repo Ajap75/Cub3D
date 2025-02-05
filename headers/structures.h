@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:42:38 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 14:43:51 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:53:01 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_map
 	int	end_map_index; // Index of the end of the map;
 	int width;       // Map width
 	int height;      // MAp height
-	int player_x;    // player coordinate
-	int player_y;    // player coordinate
+	int player_i;    // player coordinate
+	int player_j;    // player coordinate
 	char player_dir; // player starting orientation
 }				t_map;
 
