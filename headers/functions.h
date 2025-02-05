@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:07:03 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 18:31:14 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:53:30 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 
 /*TEST*/
 
+int	print_map(t_data *data);
 void	test_parsing_metadata(t_data *data);
 int		ft_trim_tab(char **rgb_tab);
 int		ft_end_file(t_data *data);
 
 /*PARSING METADATA*/
 int		ft_initialize(t_data *data);
+int	ft_clean_layout(t_data *data);
+
 
 int		free_char_tab(char **texture_file);
 int		ft_free_exit(char *line, char **rgb_tab, t_data *data, int i);

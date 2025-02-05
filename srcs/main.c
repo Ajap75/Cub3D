@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/03 19:17:40 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:54:38 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,18 @@ can not be open\033[0m\n",
 int	ft_clean_layout(t_data *data)
 {
 	int	i;
-
+	printf("PROUT\n");
 	i = 0;
-	if (data->map.layout == NULL)
+	if (data == NULL || data->map.layout == NULL)
 		return (1);
-	while (data->map.layout[i])
+	while (i < data->map.height)
 	{
 		if (data->map.layout[i] != NULL)
 			free(data->map.layout[i]);
 		i++;
 	}
 	free(data->map.layout);
+	data->map.layout = NULL;
 	return (0);
 }
 int	ft_clean_data_and_exit(t_data *data)
@@ -150,5 +151,6 @@ int	ft_end_file(t_data *data)
 		free(line);
 	}
 	close(data->config.map_file_fd);
+	printf("FILE CLOSED\n");
 	return (0);
 }
