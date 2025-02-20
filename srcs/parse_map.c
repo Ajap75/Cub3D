@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:30:16 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/20 10:15:43 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:01:31 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,28 @@ int	get_map_index(t_data *data)
 {
 	char	*line;
 
+	printf("Map index = %d\n", data->map.begin_map_index);
 	while (1)
 	{
 		line = get_next_line(data->config.map_file_fd);
-		data->map.begin_map_index++;
+
+		printf("LINE = %s\n", line);
 		if (line == NULL)
 		{
 			printf("\033[31mUseError : NO_MAP or ERROR DURING OPENING\n\033[0m\n");
 			ft_clean_data_and_exit(data);
 		}
-		else if (line[0] == '\0' || line[0] == '\n' || line[0] == '\r')
+		else if (line[0] == '\0' || line[0] == '\n' || line[0] == '\r' || line[0] == '\t')
 		{
+			data->map.begin_map_index++;
 			free(line);
 			continue ;
 		}
 		else
 			break ;
 	}
-	printf("FIRST LINE OF MAP IS \nLINE[%d] : |%s|\n",
-		data->map.begin_map_index, line);
+	printf("FIRST LINE OF MAP IS \nLINE[%d]\n",
+		data->map.begin_map_index);
 	free(line);
 	return (0);
 }
@@ -98,11 +101,11 @@ int	*ft_go_to_map(t_data *data)
 		line = get_next_line(data->config.map_file_fd);
 		if (line == NULL)
 			break ;
+		// printf("go tol map : line[%d] : |%s|\n",
+		// 	i, line);
 		free(line);
 		i++;
 	}
-	// printf(" I've reached the beginning of the map\nFirst line[%d] : |%s|\n",
-	// 	i, line);
 	return (0);
 }
 
@@ -178,7 +181,7 @@ int	check_first_last_row(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < ((int)ft_strlen(data->map.layout[0]) - 1))
+	while (i < ((int)ft_strlen(data->map.layout[0])))
 	{
 		if (data->map.layout[0][i] != '1')
 		{
@@ -189,7 +192,7 @@ int	check_first_last_row(t_data *data)
 		i++;
 	}
 	i = 0;
-	while (i < ((int)ft_strlen(data->map.layout[data->map.height - 1]) - 1))
+	while (i < ((int)ft_strlen(data->map.layout[data->map.height - 1])))
 	{
 		if (data->map.layout[data->map.height - 1][i] != '1')
 		{
@@ -419,8 +422,27 @@ int	restore_map(t_data *data)
 	data->map.layout[data->map.player_i][data->map.player_j] = data->map.player_dir;
 	return (0);
 }
+
+int skip_metadata(t_data *data)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	while (i < data->map.begin_map_index)
+	{
+		line = get_next_line(data->config.map_file_fd);
+		if (line == NULL)
+			break ;
+		free(line);
+		i++;
+	}
+	return (0);
+}
 int	parse_map(t_data *data)
 {
+	data->config.map_file_fd = ft_open_file(data->config.map_filename);
+	skip_metadata(data);
 	get_map_index(data);
 	ft_end_file(data);
 	data->config.map_file_fd = ft_open_file(data->config.map_filename);

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 17:31:51 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:43:44 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_initialize(t_data *data)
 
 	i = 0;
 	data->map.layout = NULL;
-	data->map.begin_map_index = -1;
+	data->map.begin_map_index = 0;
 	data->config.metadata_count = 0;
 	data->map.height = 0;
 	data->map.width = 0;

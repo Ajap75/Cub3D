@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 17:51:23 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:56:32 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	parse(t_data *data)
 	ft_check_for_doublon(data);
 	ft_store_metadata(data);
 	check_config_data(data);
+	ft_end_file(data);
 	parse_map(data);
 	return (0);
 }
@@ -31,7 +32,6 @@ int	ft_store_metadata(t_data *data)
 	while (1)
 	{
 		line = get_next_line(data->config.map_file_fd);
-		data->map.begin_map_index++;
 		printf("Line[%d] = |%s|\n", data->map.begin_map_index, line);
 		if (line == NULL || data->config.metadata_count == 6)
 		{
@@ -39,7 +39,8 @@ int	ft_store_metadata(t_data *data)
 				return (free(line), 1);
 			return (1);
 		}
-		else if (ft_strncmp("NO ", line, 3) == 0)
+		data->map.begin_map_index++;
+		if (ft_strncmp("NO ", line, 3) == 0)
 			ft_set_north_texture(line, data);
 		else if (ft_strncmp("SO ", line, 3) == 0)
 			ft_set_south_texture(line, data);
