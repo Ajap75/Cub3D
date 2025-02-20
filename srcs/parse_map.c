@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:30:16 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 17:32:48 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:15:43 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,27 +356,22 @@ int	check_allowed_character(t_data *data)
 
 int	floodfill_algo(t_data *data, int i, int j)
 {
-	data->map.layout[i][j] = 'P';
-	if (i - 1 >= 0)
-	{
-		if (data->map.layout[i - 1][j] == '0')
-			floodfill_algo(data, i - 1, j);
-	}
-	if (i + 1 <= data->map.height - 1)
-	{
-		if (data->map.layout[i + 1][j] == '0')
-			floodfill_algo(data, i + 1, j);
-	}
-	if (j - 1 >= 0)
-	{
-		if (data->map.layout[i][j - 1] == '0')
-			floodfill_algo(data, i, j - 1);
-	}
-	if (j + 1 >= 0)
-	{
-		if (data->map.layout[i][j + 1] == '0')
-			floodfill_algo(data, i, j + 1);
-	}
+
+	if (i < 0 || i >= data->map.height)
+		return (0);
+	if (j < 0 || j >= (int)ft_strlen(data->map.layout[i]))
+		return (0);
+	printf("Accessing : P[%d][%d] = %c \n", i ,j, data->map.layout[i][j]);
+	if (!data->map.layout[i][j])
+		return(0);
+	if (data->map.layout[i][j] == '1' || data->map.layout[i][j] == 'P')
+		return(0);
+	else
+		data->map.layout[i][j] = 'P';
+	floodfill_algo(data, i - 1, j);
+	floodfill_algo(data, i + 1, j);
+	floodfill_algo(data, i, j - 1);
+	floodfill_algo(data, i, j + 1);
 	return(0);
 }
 int	check_algo_floodfill(t_data *data)
@@ -437,6 +432,7 @@ int	parse_map(t_data *data)
 	check_player(data);
 	print_map(data);
 	check_boundaries(data);
+	printf("Map height = %d\n", data->map.height);
 	floodfill_algo(data, data->map.player_i, data->map.player_j);
 	print_map(data);
 	check_algo_floodfill(data);
