@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/20 15:19:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:31:47 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (argc != 2)
+	if (argc != 2 || correct_extension(argv[1]))
 	{
-		printf("\033[31mUseError : %s\n, the prog as followed :  ./cub3d map.cub\033[0m\n", strerror(errno));
+		printf("\033[31mError\n : %s\nUse the prog as followed :  ./cub3d map.cub || .cub extension !\033[0m\n", strerror(errno));
 		return (1);
 	}
+
 	data.config.map_filename = argv[1];
 	data.config.map_file_fd = ft_open_file(data.config.map_filename);
 	if (data.config.map_file_fd == -1)
@@ -55,7 +56,7 @@ int	ft_open_file(char *file_name)
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("\033[31mError :%s\n The file doesn't exist or\
+		printf("\033[31mError\n :%s The file doesn't exist or\
 can not be open\033[0m\n",
 				strerror(errno));
 		return (-1);
@@ -67,7 +68,6 @@ can not be open\033[0m\n",
 int	ft_clean_layout(t_data *data)
 {
 	int	i;
-	printf("PROUT\n");
 	i = 0;
 	if (data == NULL || data->map.layout == NULL)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:07:03 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/05 17:45:19 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:25:57 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define FUNCTIONS_H
 
 # include "structures.h"
+
+/*MAIN*/
+
+int	correct_extension(char *file_name);
 
 /*TEST*/
 
