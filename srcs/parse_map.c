@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:30:16 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/20 13:01:31 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:00:27 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,9 +233,60 @@ int	check_first_last_column(t_data *data)
 	}
 	return (0);
 }
+int	is_walkable(char c)
+{
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (1);
+	else
+		return (0);
+}
 
+int hole_in_the_map(t_data *data, int i, int j)
+{
+	int	len;
+	if (!is_walkable(data->map.layout[i][j]))
+		return(0);
+	printf("LINE = |%s|\n", data->map.layout[i]);
+	if (i == 0 || i == data->map.height - 1 || j == 0 || j == (int)ft_strlen(data->map.layout[i]) - 1)
+		return (1);
+	len = ft_strlen(data->map.layout[i - 1]);
+	if (j >= len)
+		return(1);
+	len = ft_strlen(data->map.layout[i + 1]);
+	if (j >= len)
+		return(1);
+	return (0);
+
+}
+
+int check_every_neighbore(t_data *data)
+{
+
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < data->map.height)
+	{
+		while (j < (int)ft_strlen(data->map.layout[i]))
+		{
+			if (hole_in_the_map(data, i ,j))
+			{
+				printf ("\033[31mError\n  Map has an acces to a hole at Point[%d][%d]\n\033[0m", i, j);
+				ft_clean_data_and_exit(data);
+			}
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	printf ("Map isn't jagged\n");
+	return (0);
+}
 int	check_boundaries(t_data *data)
 {
+	check_every_neighbore(data);
 	check_first_last_row(data);
 	check_first_last_column(data);
 	return (0);

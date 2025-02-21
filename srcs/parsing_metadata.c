@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:54:36 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/20 12:56:32 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:48:26 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int	parse(t_data *data)
 {
+	// check_extension(data)
 	ft_check_for_doublon(data);
 	ft_store_metadata(data);
 	check_config_data(data);
@@ -24,6 +25,10 @@ int	parse(t_data *data)
 	return (0);
 }
 
+// int	check_extension(t_data *data)
+// {
+
+// }
 int	ft_store_metadata(t_data *data)
 {
 	char	*line;
@@ -89,11 +94,28 @@ int	check_config_data(t_data *data)
 	return (0);
 }
 
+int	missing_texture(t_data *data)
+{
+	int	i;
+	i = 0;
+	while (i < 4)
+	{
+		if (data->config.textures[i])
+			i++;
+		else
+		{
+			printf("\033[31mError\n:Missing texture.\nTexture File name : |%s|\n%s\033[0m\n", data->config.textures[i], strerror(errno));
+			ft_clean_data_and_exit(data);
+		}
+	}
+	return (0);
+}
 int	check_texture(t_data *data)
 {
 	int	i;
 	int	fd;
 
+	missing_texture(data);
 	i = 0;
 	while (i < 4)
 	{

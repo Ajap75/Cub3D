@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/20 11:43:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:19:44 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ int	ft_initialize(t_data *data)
 	i = 0;
 	while (i < 3)
 	{
-		data->config.ceiling_color[i] = 0;
-		data->config.floor_color[i] = 0;
+		data->config.ceiling_color[i] = -1;
+		data->config.floor_color[i] = -1;
 		i++;
 	}
 	i = 0;
