@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 13:53:53 by anastruc          #+#    #+#             */
-/*   Updated: 2025/02/21 11:31:47 by anastruc         ###   ########.fr       */
+/*   Updated: 2025/02/21 13:31:23 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,46 +65,6 @@ can not be open\033[0m\n",
 		return (fd);
 }
 
-int	ft_clean_layout(t_data *data)
-{
-	int	i;
-	i = 0;
-	if (data == NULL || data->map.layout == NULL)
-		return (1);
-	while (i < data->map.height)
-	{
-		if (data->map.layout[i] != NULL)
-			free(data->map.layout[i]);
-		i++;
-	}
-	free(data->map.layout);
-	data->map.layout = NULL;
-	return (0);
-}
-int	ft_clean_data_and_exit(t_data *data)
-{
-	int		i;
-	char	*line;
-
-	i = 0;
-	while (1)
-	{
-		line = get_next_line(data->config.map_file_fd);
-		if (line == NULL)
-			break ;
-		free(line);
-	}
-	while (i < 4)
-	{
-		if (data->config.textures_files_fd[i] != -1)
-			close(data->config.textures_files_fd[i]);
-		if (data->config.textures[i])
-			free(data->config.textures[i]);
-		i++;
-	}
-	ft_clean_layout(data);
-	exit(1);
-}
 
 int	ft_initialize(t_data *data)
 {
@@ -149,6 +109,5 @@ int	ft_end_file(t_data *data)
 		free(line);
 	}
 	close(data->config.map_file_fd);
-	printf("FILE CLOSED\n");
 	return (0);
 }

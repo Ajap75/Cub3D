@@ -6,7 +6,7 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 12:53:29 by anastruc          #+#    #+#              #
-#    Updated: 2025/02/21 11:21:47 by anastruc         ###   ########.fr        #
+#    Updated: 2025/02/21 13:28:37 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJS_DIR = objs# Directory where object files will be generated
 HEADERS_DIR = headers# Directory containing header files
 
 # List of source files for parsing
-SRCS = main.c main_utils.c parsing_metadata.c set_texture.c free_and_error.c parsing_utils.c check_for_texture_doublon.c check_for_color_doublon.c parse_map.c parsing_colors.c
+SRCS = main.c main_utils.c parsing_metadata.c set_texture.c free_and_error.c parsing_utils.c parse_map_utils_1.c parse_map_utils_2.c parse_map_utils_3.c parse_map_utils_4.c check_for_texture_doublon.c check_for_color_doublon.c parse_map.c parsing_colors.c
 
 # List of header files
 HEADERS =  structures.h colors.h functions.h
